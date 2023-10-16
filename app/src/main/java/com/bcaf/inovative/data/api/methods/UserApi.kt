@@ -39,8 +39,12 @@ interface UserApi {
     @POST("/api/op/v1/regis")
     suspend fun createUser(@Body user: User): Response<LoginResponse>
 
+
     @POST("/api/reply/v1/sv")
-    suspend fun createReply(@Header("Authorization") token: String, @Body reply: Reply): Response<GetAllPost>
+    suspend fun createReply(
+        @Header("Authorization") token: String,
+        @Body reply: Reply
+    ): Response<GetAllPost>
 
 //    @POST("/api/post/v1/sv")
 //    suspend fun createPost(@Body post: Post2): Response<LoginResponse>

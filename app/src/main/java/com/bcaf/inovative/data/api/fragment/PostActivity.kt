@@ -102,7 +102,7 @@ class PostActivity : Fragment() {
         }
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://0dab-180-252-169-202.ngrok-free.app/")
+            .baseUrl("https://64d1-103-171-163-131.ngrok-free.app")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

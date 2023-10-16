@@ -45,7 +45,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeActivity : Fragment(), CoroutineScope {
     private lateinit var sessionManager: SessionManager
-    private val BASE_URL = "https://0dab-180-252-169-202.ngrok-free.app/"
+    private val BASE_URL = "https://64d1-103-171-163-131.ngrok-free.app"
     private lateinit var apiService: UserApi
     lateinit var progressBar: ProgressBar
 

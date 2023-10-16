@@ -22,8 +22,11 @@ import com.bcaf.inovative.data.api.methods.UserApi
 import com.bcaf.inovative.data.api.request.DataItem
 import com.bcaf.inovative.data.api.request.GetAllPost
 import com.bcaf.inovative.data.api.request.GetAllPostId
+import com.bcaf.inovative.data.api.request.Post2
+import com.bcaf.inovative.data.api.request.Post7
 import com.bcaf.inovative.data.api.request.Reply
 import com.bcaf.inovative.data.api.request.User
+import com.bcaf.inovative.data.api.request.User7
 import com.bcaf.inovative.data.api.response.LoginResponse
 import com.bcaf.inovative.utils.SessionManager
 import kotlinx.coroutines.Dispatchers
@@ -54,7 +57,10 @@ class ReplyActivity : Fragment() {
     private lateinit var adapter: RecyclerViewAdapter2
     lateinit var sendButton : ImageButton
     lateinit var nameTextView: TextView
-     lateinit var txtToken: TextView
+    lateinit var txtToken: TextView
+    private lateinit var token: String
+    private lateinit var id: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -81,13 +87,12 @@ class ReplyActivity : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        txtToken = view.findViewById(R.id.txtToken)
-        txtToken.text = SessionManager.getToken(requireContext())
 
         val txtId: TextView = view.findViewById(R.id.txtId)
         txtId.text = SessionManager.getId(requireContext())
         recyclerView2 = view.findViewById(R.id.recyclerView2)
-
+        txtToken = view.findViewById(R.id.txtToken)
+        txtToken.text = SessionManager.getToken(requireContext())
 
         val dataItem: DataItem = postItem!!
 
@@ -96,37 +101,49 @@ class ReplyActivity : Fragment() {
         Log.i("datanya", dataItem.toString())
         recyclerView2.layoutManager = LinearLayoutManager(requireContext())
         recyclerView2.adapter = adapter
-        nameTextView = view.findViewById(R.id.txtNama)
+
         sendButton = view.findViewById(R.id.sendButton)
         val editTextKomen: EditText = view.findViewById(R.id.messageEditText)
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://0dab-180-252-169-202.ngrok-free.app")
+            .baseUrl("https://64d1-103-171-163-131.ngrok-free.app")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
+        userApi = retrofit.create(UserApi::class.java)
         sendButton.setOnClickListener {
 
-            val id = txtId.text.toString()
-            val komen = editTextKomen.text.toString()
 
-            val reply = Reply(id,komen)
+
+
+            val idPostString = "1"  // Replace this with your actual idPost retrieval logic
+            val idPost = idPostString.toIntOrNull() ?: 0 // Convert to Int, default to 0 if not a valid Int
+            val komen = editTextKomen.text.toString()
+            val id = txtId.text.toString()
+            val idUser = id.toIntOrNull() ?: 0 // Convert to Int, default to 0 if not a valid Int
+            val post = Post7(idPost)
+            val user = User7(idUser)
+            val reply = Reply(komen,post,user)
+
 
             // Memanggil fungsi untuk memasukkan data pengguna
             insertData(reply)
         }
+
+        token = txtToken.text.toString()
+
     }
-    val token: String = txtToken.text.toString()
+
     private fun insertData(reply: Reply) {
+        val token = txtToken.text.toString()
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 // Memanggil API untuk memasukkan data pengguna
-                val response: Response<GetAllPost> = userApi.createReply(token, reply)
+                val response: Response<GetAllPost> = userApi.createReply("Bearer $token",reply)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
-                        val createdReply: GetAllPost? = response.body()
+                        val createPost: GetAllPost? = response.body()
                         // Handle the created user
-                        Log.d("Response", "User created: $createdReply")
+                        Log.d("Response", "User created: $createPost")
 
                         // Tampilkan toast jika data berhasil disimpan
                         Toast.makeText(
@@ -134,7 +151,7 @@ class ReplyActivity : Fragment() {
                             "Data berhasil disimpan",
                             Toast.LENGTH_SHORT
                         ).show()
-                        val intent = Intent(requireContext(), MainActivity::class.java)
+                        val intent = Intent(requireContext(), PostActivity::class.java)
                         startActivity(intent)
                     } else {
                         // Handle unsuccessful response

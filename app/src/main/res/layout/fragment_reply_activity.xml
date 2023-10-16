@@ -17,60 +17,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-           />
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/txtToken"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
             android:layout_width="match_parent"
-            android:layout_height="610dp"
+            android:layout_height="561dp"
             tools:listitem="@layout/arraylistreply">
 
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/messageInputCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <EditText
-                    android:id="@+id/messageEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Tulis pesan disini"
-                    android:inputType="textMultiLine"
-                    android:minLines="1"
-                    android:maxLines="5"
-                    android:layout_toStartOf="@id/sendButton"
-                    android:layout_marginEnd="16dp" />
-
-                <ImageButton
-                    android:id="@+id/sendButton"
-                    android:layout_width="42dp"
-                    android:layout_height="55dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="?android:selectableItemBackground"
-                    android:contentDescription="Kirim pesan"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/send" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/messageInputCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/messageEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/sendButton"
+                android:hint="Tulis pesan disini"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="1" />
+
+            <ImageButton
+                android:id="@+id/sendButton"
+                android:layout_width="42dp"
+                android:layout_height="55dp"
+                android:layout_alignParentEnd="true"
+                android:background="?android:selectableItemBackground"
+                android:contentDescription="Kirim pesan"
+                android:scaleType="fitXY"
+                android:src="@drawable/send" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </FrameLayout>
