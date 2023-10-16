@@ -54,7 +54,7 @@ class ReplyActivity : Fragment() {
     private lateinit var adapter: RecyclerViewAdapter2
     lateinit var sendButton : ImageButton
     private lateinit var nameTextView: TextView
-
+    private lateinit var txtToken: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -81,7 +81,7 @@ class ReplyActivity : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val txtToken: TextView = view.findViewById(R.id.txtToken)
+        txtToken = view.findViewById(R.id.txtToken)
         txtToken.text = SessionManager.getToken(requireContext())
 
         val txtId: TextView = view.findViewById(R.id.txtId)
@@ -105,7 +105,7 @@ class ReplyActivity : Fragment() {
             .build()
 
         sendButton.setOnClickListener {
-            val token = txtToken.text.toString()
+
             val id = txtId.text.toString()
             val komen = editTextKomen.text.toString()
 
@@ -115,11 +115,12 @@ class ReplyActivity : Fragment() {
             insertData(reply)
         }
     }
+    val token = txtToken.text.toString()
     private fun insertData(reply: Reply) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 // Memanggil API untuk memasukkan data pengguna
-                val response: Response<GetAllPost> = userApi.createReply(reply)
+                val response: Response<GetAllPost> = userApi.createReply(token, reply)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
