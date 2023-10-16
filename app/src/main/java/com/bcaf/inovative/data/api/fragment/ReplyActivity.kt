@@ -53,8 +53,8 @@ class ReplyActivity : Fragment() {
     private lateinit var recyclerView2: RecyclerView
     private lateinit var adapter: RecyclerViewAdapter2
     lateinit var sendButton : ImageButton
-    private lateinit var nameTextView: TextView
-    private lateinit var txtToken: TextView
+    lateinit var nameTextView: TextView
+     lateinit var txtToken: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -115,7 +115,7 @@ class ReplyActivity : Fragment() {
             insertData(reply)
         }
     }
-    val token = txtToken.text.toString()
+    val token: String = txtToken.text.toString()
     private fun insertData(reply: Reply) {
         GlobalScope.launch(Dispatchers.IO) {
             try {
