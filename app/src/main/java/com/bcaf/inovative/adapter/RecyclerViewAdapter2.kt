@@ -37,6 +37,7 @@ class RecyclerViewAdapter2(private val dataItem: DataItem) :
         holder.komenTextView.text = item!!.comment ?: ""
         holder.tglTextView.text = item!!.tanggalReply ?: ""
 
+
     }
 
     override fun getItemCount(): Int {

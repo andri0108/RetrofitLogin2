@@ -60,6 +60,9 @@ class ReplyActivity : Fragment() {
     lateinit var txtToken: TextView
     private lateinit var token: String
     private lateinit var id: String
+    private var postId: Int = -1
+    private lateinit var textViewPostId: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +71,7 @@ class ReplyActivity : Fragment() {
             param2 = it.getString(ARG_PARAM2)
 
             postItem = it.getSerializable("postItem") as DataItem
-
+            postId = it.getInt("postId", -1)
         }
     }
     private var allPostId: GetAllPostId? = null
@@ -85,15 +88,23 @@ class ReplyActivity : Fragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        textViewPostId = view.findViewById(R.id.textViewPostId)
+
+        // Set the ID post to the TextView
+        textViewPostId.text = "ID Post: $postId"
 
         val txtId: TextView = view.findViewById(R.id.txtId)
         txtId.text = SessionManager.getId(requireContext())
         recyclerView2 = view.findViewById(R.id.recyclerView2)
         txtToken = view.findViewById(R.id.txtToken)
         txtToken.text = SessionManager.getToken(requireContext())
+        val description = arguments?.getString("deskripsi", "Deskripsi default jika null")
+        val descriptionTextView = view.findViewById<TextView>(R.id.txtDes)
 
+
+        descriptionTextView.text = "$description"
         val dataItem: DataItem = postItem!!
 
         adapter = RecyclerViewAdapter2(dataItem)
@@ -101,7 +112,7 @@ class ReplyActivity : Fragment() {
         Log.i("datanya", dataItem.toString())
         recyclerView2.layoutManager = LinearLayoutManager(requireContext())
         recyclerView2.adapter = adapter
-
+        textViewPostId = view.findViewById(R.id.textViewPostId)
         sendButton = view.findViewById(R.id.sendButton)
         val editTextKomen: EditText = view.findViewById(R.id.messageEditText)
         val retrofit = Retrofit.Builder()
@@ -112,10 +123,11 @@ class ReplyActivity : Fragment() {
         sendButton.setOnClickListener {
 
 
+            val idPostString = postId.toString() // Ubah postId ke String
+            val idPost = idPostString.toIntOrNull() ?: 0 // Ubah ke Integer atau gunakan nilai default 0 jika tidak bisa diubah
+            textViewPostId.text ="$idPost"
 
 
-            val idPostString = "1"  // Replace this with your actual idPost retrieval logic
-            val idPost = idPostString.toIntOrNull() ?: 0 // Convert to Int, default to 0 if not a valid Int
             val komen = editTextKomen.text.toString()
             val id = txtId.text.toString()
             val idUser = id.toIntOrNull() ?: 0 // Convert to Int, default to 0 if not a valid Int

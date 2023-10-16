@@ -42,6 +42,9 @@ class RecyclerViewAdapter(private val dataItems: List<DataItem>) :
             val replyFragment = ReplyActivity()
             val bundle = Bundle()
             bundle.putSerializable("postItem", item)
+            bundle.putInt("postId", item.idPost ?: -1)
+            bundle.putString("deskripsi", item.deskripsi ?:"")
+
 
             replyFragment.arguments = bundle
             // You need to use the activity's FragmentManager to initiate the fragment transaction
